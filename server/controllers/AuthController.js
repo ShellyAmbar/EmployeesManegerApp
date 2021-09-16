@@ -2,6 +2,9 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const secret = "%^@#SA4494)(%^@#";
+const refreshSecret = "%^@#SA04041994)(%^@";
+
 const register = (req, res, next) => {
   bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
     if (err) {
@@ -17,6 +20,7 @@ const register = (req, res, next) => {
       email: req.body.email,
       phone: req.body.phone,
       password: hashedPass,
+      organisation: req.body.organisation,
     });
 
     user
@@ -48,12 +52,16 @@ const login = (req, res, next) => {
             });
           }
           if (result) {
-            let token = jwt.sign({ name: user.email }, "verySecretValue", {
-              expiresIn: "1h",
+            let token = jwt.sign({ name: user.email }, secret, {
+              expiresIn: "30s",
+            });
+            let refreshToken = jwt.sign({ name: user.email }, refreshSecret, {
+              expiresIn: "48h",
             });
             res.json({
               message: "Login Success",
               token,
+              refreshToken,
             });
           } else {
             res.json({
@@ -73,7 +81,27 @@ const login = (req, res, next) => {
       });
     });
 };
+
+const refreshToken = (req, res, next) => {
+  const refreshToken = req.body.refreshToken;
+  jwt.verify(refreshToken, refreshSecret, function (err, decode) {
+    if (err) {
+      res.status(400).json({
+        err,
+      });
+    } else {
+      let token = jwt.sign({ name: decode.name }, secret, { expiresIn: "60s" });
+      let refreshtoken = req.body.refreshToken;
+      res.status(200).json({
+        message: "token refreshed successfully.",
+        token,
+        refreshToken,
+      });
+    }
+  });
+};
 module.exports = {
   register,
   login,
+  refreshToken,
 };
