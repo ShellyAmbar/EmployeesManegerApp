@@ -9,8 +9,7 @@ const EmployeeRoutes = require("./routes/Employee");
 const AuthRoutes = require("./routes/Auth");
 const UserRoutes = require("./routes/User");
 
-const mongoUrl =
-  "mongodb+srv://shelly_ambar:metukonet101@cluster0.ys4rk.mongodb.net/EmployeesDB?retryWrites=true&w=majority";
+const mongoUrl = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.ys4rk.mongodb.net/EmployeesDB?retryWrites=true&w=majority`;
 mongoose
   .connect(mongoUrl)
   .then(() => console.log("Success mongoose"))
