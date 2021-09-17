@@ -53,20 +53,30 @@ const login = (req, res, next) => {
               { name: user.email },
               process.env.ACCESS_TOKEN_SECRET,
               {
-                expiresIn: "30s",
+                expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRE_TIME,
               }
             );
             let refreshToken = jwt.sign(
               { name: user.email },
               process.env.REFRESH_TOKEN_SECRET,
               {
-                expiresIn: "48h",
+                expiresIn: process.env.REFRESH_TOKEN_SECRET_EXPIRE_TIME,
               }
             );
+            const userObj = {
+              _id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              photoUrl: user.photoUrl,
+              phone: user.phone,
+              email: user.email,
+              organisation: user.organisation,
+            };
             res.json({
               message: "Login Success",
               token,
               refreshToken,
+              userObj,
             });
           } else {
             res.json({
@@ -102,7 +112,7 @@ const refreshToken = (req, res, next) => {
           { name: decode.name },
           process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: "60s",
+            expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRE_TIME,
           }
         );
         let refreshtoken = req.body.refreshToken;

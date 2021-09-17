@@ -1,4 +1,5 @@
 const Emplyee = require("../models/Employee");
+const User = require("../models/User");
 
 const setEmployee = (req, res, next) => {
   try {
@@ -114,15 +115,26 @@ const getEmployee = (req, res, next) => {
     });
 };
 const getEmployees = (req, res, next) => {
-  Emplyee.find()
+  let userId = req.body.userId;
+  User.findById(userId)
     .then((response) => {
-      res.json({
-        response,
-      });
+      let user = response;
+
+      Emplyee.find({ organisation: user.organisation })
+        .then((response) => {
+          res.json({
+            response,
+          });
+        })
+        .catch((err) => {
+          res.json({
+            message: "An error occured: " + err,
+          });
+        });
     })
     .catch((err) => {
       res.json({
-        message: "An error occured: " + err,
+        message: "user not found. " + err,
       });
     });
 };

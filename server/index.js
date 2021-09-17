@@ -5,6 +5,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const EmployeeRoutes = require("./routes/Employee");
 const AuthRoutes = require("./routes/Auth");
 const UserRoutes = require("./routes/User");
@@ -26,4 +29,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server is running"));
 app.use("/api/employee", EmployeeRoutes);
 app.use("/api/auth", AuthRoutes);
-app.use("/api/User", UserRoutes);
+app.use("/api/user", UserRoutes);
