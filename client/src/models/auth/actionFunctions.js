@@ -33,10 +33,10 @@ const signupActionError = error => {
   };
 };
 
-const logoutActionSuccess = user => {
+const logoutActionSuccess = data => {
   return {
     type: LOGOUT_REQUEST_SUCCESS,
-    payload: user,
+    payload: data,
   };
 };
 const logoutActionError = error => {

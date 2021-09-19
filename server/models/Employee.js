@@ -13,6 +13,10 @@ const EmplyeeSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    photoPath: {
+      type: String,
+      required: false,
+    },
     email: {
       type: String,
       required: true,

@@ -9,13 +9,13 @@ router.get("/getEmployee", authentication, EmployeeController.getEmployee);
 router.post(
   "/setEmployee",
   authentication,
-  upload.array("photoUrl[]"),
+  // upload.array("photoUrl[]"),
   EmployeeController.setEmployee
 );
 router.put(
   "/updateEmployee",
   authentication,
-  upload.array("photoUrl[]"),
+  //upload.array("photoUrl[]"),
   EmployeeController.updateEmployee
 );
 router.delete(

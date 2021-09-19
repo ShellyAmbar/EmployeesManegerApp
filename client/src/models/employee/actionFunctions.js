@@ -7,72 +7,90 @@ import {
   REMOVE_EMPLOYEE_REQUEST_SUCCESS,
   UPDATE_EMPLOYEE_REQUEST_FAILURE,
   UPDATE_EMPLOYEE_REQUEST_SUCCESS,
+  GET_EMPLOYEES_REQUEST_SUCCESS,
+  GET_EMPLOYEES_REQUEST_FAILURE,
 } from './types';
 //GET
-const getEmployeeActionSuccess = news => {
-  console.log('favoritesAction', news);
+
+const getEmployeesActionSuccess = data => {
+  console.log(data);
+  return {
+    type: GET_EMPLOYEES_REQUEST_SUCCESS,
+    payload: data,
+  };
+};
+const getEmployeesActionError = error => {
+  return {
+    type: GET_EMPLOYEES_REQUEST_FAILURE,
+    err: error,
+  };
+};
+
+const getEmployeeActionSuccess = data => {
   return {
     type: GET_EMPLOYEE_REQUEST_SUCCESS,
-    payload: news,
+    payload: data,
   };
 };
 const getEmployeeActionError = error => {
   return {
     type: GET_EMPLOYEE_REQUEST_FAILURE,
     err: error,
-    payload: error,
   };
 };
 //SET
 
-const addEmployeeActionSuccess = obj => {
+const addEmployeeActionSuccess = (data, employee) => {
   return {
     type: ADD_EMPLOYEE_REQUEST_SUCCESS,
-    payload: obj,
+    payload: data,
+    employee,
   };
 };
 const addEmployeeActionError = error => {
   return {
     type: ADD_EMPLOYEE_REQUEST_FAILURE,
     err: error,
-    payload: error,
   };
 };
 
 //DELETE
 
-const removeEmployeeActionSuccess = payload => {
+const removeEmployeeActionSuccess = (data, employeeId) => {
   return {
     type: REMOVE_EMPLOYEE_REQUEST_SUCCESS,
-    payload: payload,
+    payload: data,
+    employeeId,
   };
 };
 const removeEmployeeActionError = error => {
   return {
     type: REMOVE_EMPLOYEE_REQUEST_FAILURE,
     err: error,
-    payload: error,
   };
 };
 
 // Update
-const updateEmployeeActionSuccess = payload => {
+const updateEmployeeActionSuccess = (data, employeeId, employeeData) => {
   return {
     type: UPDATE_EMPLOYEE_REQUEST_SUCCESS,
-    payload: payload,
+    payload: data,
+    employeeId,
+    employeeData,
   };
 };
 const updateEmployeeActionError = error => {
   return {
     type: UPDATE_EMPLOYEE_REQUEST_FAILURE,
     err: error,
-    payload: error,
   };
 };
 
 export {
   getEmployeeActionError,
   getEmployeeActionSuccess,
+  getEmployeesActionError,
+  getEmployeesActionSuccess,
   addEmployeeActionError,
   addEmployeeActionSuccess,
   removeEmployeeActionError,

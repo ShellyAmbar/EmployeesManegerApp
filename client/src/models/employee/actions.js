@@ -24,15 +24,14 @@ const getEmployees = (userId, token, callback) => {
     try {
       getEmployeesCall(userId, token)
         .then(response => {
-          console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(getEmployeesActionSuccess(response.data));
+            console.log('response', response.status);
+            dispatch(getEmployeesActionSuccess(response.data.response));
             callback();
           } else {
             throw 'Something went wrong';
           }
         })
-
         .catch(error => {
           throw 'Something went wrong';
         });
@@ -72,7 +71,7 @@ const addEmployee = (employee, token, callback) => {
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(addEmployeeActionSuccess(response.data));
+            dispatch(addEmployeeActionSuccess(response.data, employee));
             callback();
           } else {
             throw 'Something went wrong';
@@ -96,7 +95,7 @@ const removeEmployee = (employeeId, token, callback) => {
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(removeEmployeeActionSuccess(response.data));
+            dispatch(removeEmployeeActionSuccess(response.data, employeeId));
             callback();
           } else {
             throw 'Something went wrong';
@@ -120,7 +119,13 @@ const updateEmployee = (employeeId, employeeData, token, callback) => {
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(updateEmployeeActionSuccess(response.data));
+            dispatch(
+              updateEmployeeActionSuccess(
+                response.data,
+                employeeId,
+                employeeData,
+              ),
+            );
             callback();
           } else {
             throw 'Something went wrong';

@@ -13,10 +13,12 @@ const setEmployee = (req, res, next) => {
     const startDate = req.body.startDate;
     const age = req.body.age;
     const organisation = req.body.organisation;
+    const photoPath = "";
 
     var employee = new Emplyee({
       firstName: firstName,
       lastName: lastName,
+      photoUrl: photoUrl,
       email: email,
       phone: phone,
       address: address,
@@ -26,13 +28,9 @@ const setEmployee = (req, res, next) => {
       organisation: organisation,
     });
 
-    if (req.files) {
-      let path = "";
-      req.files.forEach(function (files, index, arr) {
-        path = path + files.path + ",";
-      });
-      path = path.substring(0, path.lastIndexOf(","));
-      employee.photoUrl = path;
+    if (req.file) {
+      let path = req.file.path;
+      employee.photoPath = path;
     }
 
     employee
@@ -88,6 +86,7 @@ const updateEmployee = (req, res, next) => {
 };
 const deleteEmployee = (req, res, next) => {
   let employeeId = req.body.employeeId;
+  console.log("employeeId", employeeId);
   Emplyee.findByIdAndRemove(employeeId)
     .then(() => {
       res.json({
@@ -101,7 +100,7 @@ const deleteEmployee = (req, res, next) => {
     });
 };
 const getEmployee = (req, res, next) => {
-  let employeeId = req.body.employeeId;
+  let employeeId = req.query.employeeId;
   Emplyee.findById(employeeId)
     .then((response) => {
       res.json({
@@ -115,28 +114,35 @@ const getEmployee = (req, res, next) => {
     });
 };
 const getEmployees = (req, res, next) => {
-  let userId = req.body.userId;
-  User.findById(userId)
-    .then((response) => {
-      let user = response;
+  try {
+    let userId = req.query.userId;
+    console.log("userId: ", userId);
+    User.findById(userId)
+      .then((response) => {
+        let user = response;
 
-      Emplyee.find({ organisation: user.organisation })
-        .then((response) => {
-          res.json({
-            response,
+        Emplyee.find({ organisation: user.organisation })
+          .then((response) => {
+            res.json({
+              response,
+            });
+          })
+          .catch((err) => {
+            res.json({
+              message: "An error occured: " + err,
+            });
           });
-        })
-        .catch((err) => {
-          res.json({
-            message: "An error occured: " + err,
-          });
+      })
+      .catch((err) => {
+        res.json({
+          message: "user not found. " + err,
         });
-    })
-    .catch((err) => {
-      res.json({
-        message: "user not found. " + err,
       });
+  } catch (err) {
+    res.json({
+      message: "no user " + err,
     });
+  }
 };
 
 module.exports = {

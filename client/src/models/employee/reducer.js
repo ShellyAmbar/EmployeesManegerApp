@@ -12,93 +12,76 @@ import {
 } from './types';
 const initialState = {
   employees: [],
+  err: '',
+  message: '',
+  employee: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_EMPLOYEE_REQUEST_SUCCESS: {
-      const employees = action.payload;
+      const employee = action.payload;
 
-      if (employees && employees.length > 0) {
-        state.employees = employees;
-      }
-      return {...state, employees: [...state.employees]};
+      return {...state, employee, err: ''};
     }
     case GET_EMPLOYEE_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return err;
+      const err = action.err;
+      return {...state, err};
     }
     case GET_EMPLOYEES_REQUEST_SUCCESS: {
       const employees = action.payload;
 
-      if (employees && employees.length > 0) {
-        state.employees = employees;
-      }
-      return {...state, employees: [...state.employees]};
+      return {...state, employees: [...employees], err: ''};
     }
     case GET_EMPLOYEES_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return err;
+      const err = action.err;
+      return {...state, err};
     }
     case ADD_EMPLOYEE_REQUEST_SUCCESS: {
-      const employeesItem = action.payload.payload;
+      const message = action.payload.message;
+      const employee = action.employee;
       return {
         ...state,
-        employees: [...state.employees, employeesItem],
+        employees: [...state.employees, employee],
+        err: '',
+        message,
       };
     }
 
     case ADD_EMPLOYEE_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return err;
+      const err = action.err;
+      return {...state, err};
     }
 
     case REMOVE_EMPLOYEE_REQUEST_SUCCESS: {
-      const employeesItem = action.payload.payload;
-      try {
-        console.log('state.employees', state.employees);
-        let filteredList = state.employees.filter(item => {
-          console.log('item', item);
-          if (item) {
-            return employeesItem.id !== item.id;
-          } else return false;
-        });
+      const message = action.payload.message;
+      const employeeId = action.employeeId;
 
-        state.employees = filteredList;
-      } catch (err) {
-        console.log('err', err);
-      }
+      const newList = state.employees.filter(el => el._id !== employeeId);
 
-      return {...state, employees: [...state.employees]};
+      return {...state, employees: [...newList], message, err: ''};
     }
 
     case REMOVE_EMPLOYEE_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return state;
+      const err = action.err;
+      return {...state, err};
     }
 
     case UPDATE_EMPLOYEE_REQUEST_SUCCESS: {
-      const employeesItem = action.payload.payload;
-      try {
-        console.log('state.employees', state.employees);
-        let filteredList = state.employees.filter(item => {
-          console.log('item', item);
-          if (item) {
-            return employeesItem.id !== item.id;
-          } else return false;
-        });
+      const message = action.payload.message;
+      const employeeId = action.employeeId;
+      const employeeData = action.employeeData;
 
-        state.employees = filteredList;
-      } catch (err) {
-        console.log('err', err);
-      }
+      const newList = state.employees.map(el =>
+        el._id === employeeId ? {...employeeData} : el,
+      );
 
-      return {...state, employees: [...state.employees]};
+      return {...state, employees: [...newList], message, err: ''};
     }
 
     case UPDATE_EMPLOYEE_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return state;
+      const err = action.err;
+      return {...state, err};
     }
 
     default:
