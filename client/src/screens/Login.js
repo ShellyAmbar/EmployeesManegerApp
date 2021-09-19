@@ -1,4 +1,6 @@
 import React, {useContext, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {
   View,
   Text,
@@ -13,15 +15,37 @@ import FormButton from '../customs/FormButton';
 import SocialButton from '../customs/SocialButton';
 import {AuthContext} from '../navigation/AuthProvider';
 import {useNavigation, useTheme} from '@react-navigation/native';
+import {authCreators} from '../models/root-actions';
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigation = useNavigation();
-  const {login, googleLogin, fbLogin} = useContext(AuthContext);
-  const handleLoginSuccess = () => {
-    navigation.navigate('Tabs');
+  const {googleLogin, fbLogin} = useContext(AuthContext);
+  const authState = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const {login} = bindActionCreators(authCreators, dispatch);
+
+  const loginRequest = (email, password) => {
+    try {
+      if (email.length === 0 || password.length === 0) {
+        throw 'empthy data';
+      }
+      console.log(email + password);
+      login(email, password, () => {
+        if (authState.err) {
+          console.log('authState.err', authState.err);
+        }
+        if (authState.message) {
+          console.log('authState.message', authState.message);
+          navigation.navigate('Tabs');
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -50,7 +74,7 @@ const Login = () => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => login(email, password, () => handleLoginSuccess())}
+        onPress={() => loginRequest(email, password)}
       />
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -64,7 +88,7 @@ const Login = () => {
             btnType="facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            onPress={() => fbLogin(() => handleLoginSuccess())}
+            onPress={() => {}}
           />
 
           <SocialButton
@@ -72,14 +96,14 @@ const Login = () => {
             btnType="google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            onPress={() => googleLogin(() => handleLoginSuccess())}
+            onPress={() => {}}
           />
         </View>
       ) : null}
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('Signup')}>
+        onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.navButtonText}>
           Don't have an acount? Create here
         </Text>

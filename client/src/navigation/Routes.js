@@ -1,38 +1,26 @@
 import {View, Text} from 'react-native';
 import AuthStack from './AuthStack';
-import {MainStack} from './MainStack';
+import MainStack from './MainStack';
 import React, {useContext, useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 //import auth from '@react-native-firebase/auth';
-import {AuthContext} from './AuthProvider';
+import {useSelector} from 'react-redux';
 
 const Routes = () => {
-  const [authenticate, setAuthenticate] = useState(false);
-  const [initializing, setInitializing] = useState(true);
-
-  const [user, setUser] = useState(null);
-
-  function onAuthStateChanged(user) {
-    if (user) {
-      setUser(user);
-      if (initializing) setInitializing(false);
-      setAuthenticate(true);
-    } else {
-      setInitializing(true);
-      setUser(null);
-      setAuthenticate(false);
-    }
-  }
+  const authState = useSelector(state => state.auth);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
-    // const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    //  return subscriber();
+    if (
+      Object.keys(authState).length !== 0 &&
+      Object.keys(authState.user).length !== 0
+    ) {
+      setUser(false);
+    }
   }, []);
-  //if (initializing) return null;
 
   return (
     <NavigationContainer>
-      {console.log('user', user)}
       {user ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );

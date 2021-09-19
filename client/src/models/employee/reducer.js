@@ -102,7 +102,6 @@ const reducer = (state = initialState, action) => {
     }
 
     default:
-      console.log('error');
       return state;
   }
 };

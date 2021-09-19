@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const register = (req, res, next) => {
   bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
     if (err) {
+      console.log("bcryptErr:", err);
       res.json({
         error: err,
       });
@@ -23,12 +24,40 @@ const register = (req, res, next) => {
     user
       .save()
       .then((user) => {
-        res.json({
+        let token = jwt.sign(
+          { name: user.email },
+          process.env.ACCESS_TOKEN_SECRET,
+          {
+            expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRE_TIME,
+          }
+        );
+        let refreshToken = jwt.sign(
+          { name: user.email },
+          process.env.REFRESH_TOKEN_SECRET,
+          {
+            expiresIn: process.env.REFRESH_TOKEN_SECRET_EXPIRE_TIME,
+          }
+        );
+        const userObj = {
+          _id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          photoUrl: user.photoUrl,
+          phone: user.phone,
+          email: user.email,
+          organisation: user.organisation,
+        };
+
+        return res.json({
           message: "User added succesfully",
+          token,
+          refreshToken,
+          userObj,
         });
       })
       .catch((err) => {
-        res.json({
+        console.log(err);
+        return res.json({
           message: "Error in adding User" + err,
         });
       });
@@ -97,6 +126,17 @@ const login = (req, res, next) => {
     });
 };
 
+const logout = (req, res, next) => {
+  let refreshToken = req.body.refreshToken;
+  let token = req.body.token;
+  // jwt.destroy(refreshToken);
+  // jwt.destroy(token);
+
+  res.status(200).json({
+    message: "token destroyed successfully.",
+  });
+};
+
 const refreshToken = (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   jwt.verify(
@@ -129,4 +169,5 @@ module.exports = {
   register,
   login,
   refreshToken,
+  logout,
 };

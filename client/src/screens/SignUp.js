@@ -1,4 +1,7 @@
 import React, {useContext, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {authCreators} from '../models/root-actions';
 import {
   View,
   Text,
@@ -7,6 +10,7 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+
 import FormInput from '../customs/FormInput';
 import FormButton from '../customs/FormButton';
 import SocialButton from '../customs/SocialButton';
@@ -18,8 +22,30 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState();
   const navigation = useNavigation();
-
+  const authState = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const {signup} = bindActionCreators(authCreators, dispatch);
   const {register} = useContext(AuthContext);
+
+  const registerRequest = (email, password) => {
+    try {
+      if (email.length === 0 || password.length === 0) {
+        throw 'empthy data';
+      }
+      console.log(email + password);
+      signup(email, password, () => {
+        if (authState.err) {
+          console.log('authState.err', authState.err);
+        }
+        if (authState.message) {
+          console.log('authState.message', authState.message);
+          navigation.navigate('Tabs');
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleSignUpSuccess = () => {
     navigation.navigate('Tabs');
@@ -62,7 +88,7 @@ const SignUp = () => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => register(email, password, () => handleSignUpSuccess())}
+        onPress={() => registerRequest(email, password)}
       />
 
       <View style={styles.textPrivate}>
