@@ -1,68 +1,90 @@
-const getEmployee = ({employeeId, token}) => {
-  const url = 'http://localhost:3000/api/employee/getEmployee';
+const axios = require('axios');
 
-  const requestOptions = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
-    },
-    body: JSON.stringify({employeeId: employeeId}),
+const getEmployeeCall = (employeeId, token) => {
+  const url = 'http://192.168.1.45:3000/api/employee/getEmployee';
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: 'bearer' + token,
   };
-  return fetch(url, requestOptions);
+
+  return axios.get(
+    url,
+    {employeeId: employeeId},
+    {
+      headers: headers,
+    },
+  );
 };
 
-const getEmployees = ({userId, token}) => {
-  const url = 'http://localhost:3000/api/employee/getEmployees';
-  const requestOptions = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
-    },
-    body: JSON.stringify({userId: userId}),
+const getEmployeesCall = (userId, token) => {
+  const url = 'http://192.168.1.45:3000/api/employee/getEmployees';
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: 'bearer' + token,
   };
-  return fetch(url, requestOptions);
+
+  return axios.get(
+    url,
+    {userId: userId},
+    {
+      headers: headers,
+    },
+  );
 };
 
-const updateEmployee = ({employeeId, token}) => {
-  const url = 'http://localhost:3000/api/employee/updateEmployee';
+const updateEmployeeCall = (employeeId, employeeData, token) => {
+  const url = 'http://192.168.1.45:3000/api/employee/updateEmployee';
 
-  const requestOptions = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
-    },
-    body: JSON.stringify({employeeId: employeeId}),
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: 'bearer' + token,
   };
-  return fetch(url, requestOptions);
+
+  return axios.put(
+    url,
+    {...employeeData, employeeId},
+    {
+      headers: headers,
+    },
+  );
 };
 
-const setEmployee = ({employee, token}) => {
-  const url = 'http://localhost:3000/api/employee/setEmployee';
+const setEmployeeCall = (employee, token) => {
+  const url = 'http://192.168.1.45:3000/api/employee/setEmployee';
 
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
-    },
-    body: JSON.stringify({employee: employee}),
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: 'bearer' + token,
   };
-  return fetch(url, requestOptions);
+
+  return axios.post(url, employee, {
+    headers: headers,
+  });
 };
 
-const deleteEmployee = ({employeeId, token}) => {
-  const url = 'http://localhost:3000/api/employee/deleteEmployee';
+const deleteEmployeeCall = (employeeId, token) => {
+  const url = 'http://192.168.1.45:3000/api/employee/deleteEmployee';
 
-  const requestOptions = {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
-    },
-    body: JSON.stringify({employeeId: employeeId}),
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: 'bearer' + token,
   };
-  return fetch(url, requestOptions);
+
+  return axios.delete(
+    url,
+    {employeeId},
+    {
+      headers: headers,
+    },
+  );
+};
+
+export {
+  getEmployeeCall,
+  getEmployeesCall,
+  updateEmployeeCall,
+  setEmployeeCall,
+  deleteEmployeeCall,
 };

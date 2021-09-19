@@ -47,9 +47,9 @@ const reducer = (state = initialState, action) => {
     }
 
     case LOGOUT_REQUEST_SUCCESS: {
-      const messageItem = action.payload.message;
+      const message = action.payload.message;
 
-      return {...state, message: messageItem};
+      return {...state, message};
     }
 
     case LOGOUT_REQUEST_FAILURE: {

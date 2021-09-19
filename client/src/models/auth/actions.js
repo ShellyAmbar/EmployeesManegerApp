@@ -7,7 +7,7 @@ import {
   logoutActionSuccess,
 } from './actionFunctions';
 import {LOGIN_REQUEST, SIGNUP_REQUEST, LOGOUT_REQUEST} from './types';
-import {loginUser, signupUser, logoutUser, refreshToken} from './calls';
+import {loginUser, signupUser, logoutUser, getUserToken} from './calls';
 
 const login = (username, password, callback) => {
   return dispatch => {
@@ -16,7 +16,7 @@ const login = (username, password, callback) => {
         username: username,
         password: password.toString(),
       };
-      console.log(user);
+
       loginUser(user)
         .then(response => {
           console.log('response', response.data);
@@ -74,13 +74,54 @@ const signup = (username, password, callback) => {
   };
 };
 
-const logout = () => {
-  try {
-    let user = {};
-    logoutActionSuccess(user);
-  } catch (error) {
-    logoutActionError(error);
-  }
+const logout = (refreshToken, callback) => {
+  return dispatch => {
+    try {
+      logoutUser(refreshToken)
+        .then(response => {
+          console.log('response', response.data);
+          if (response.status === 200 || response.status === 201) {
+            dispatch(logoutActionSuccess(response.data));
+            callback();
+          } else {
+            throw 'Something went wrong';
+          }
+        })
+
+        .catch(error => {
+          throw 'Something went wrong';
+        });
+    } catch (error) {
+      console.log(error);
+      logoutActionError(error);
+      callback();
+    }
+  };
 };
 
-export {login, signup, logout};
+const getToken = (refreshToken, callback) => {
+  return dispatch => {
+    try {
+      getUserToken(refreshToken)
+        .then(response => {
+          console.log('response', response.data);
+          if (response.status === 200 || response.status === 201) {
+            dispatch(logoutActionSuccess(response.data));
+            callback();
+          } else {
+            throw 'Something went wrong';
+          }
+        })
+
+        .catch(error => {
+          throw 'Something went wrong';
+        });
+    } catch (error) {
+      console.log(error);
+      logoutActionError(error);
+      callback();
+    }
+  };
+};
+
+export {login, signup, logout, getToken};
