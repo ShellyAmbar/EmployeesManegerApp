@@ -42,8 +42,8 @@ const reducer = (state = initialState, action) => {
       const employee = action.employee;
       return {
         ...state,
-        employees: [...state.employees, employee],
-        err: '',
+        // employees: [...state.employees, employee],
+        // err: '',
         message,
       };
     }
@@ -69,9 +69,9 @@ const reducer = (state = initialState, action) => {
 
     case UPDATE_EMPLOYEE_REQUEST_SUCCESS: {
       const message = action.payload.message;
-      const employeeId = action.employeeId;
+      const employeeId = action.employeeData._id;
       const employeeData = action.employeeData;
-
+      console.log('employeeId', employeeData._id);
       const newList = state.employees.map(el =>
         el._id === employeeId ? {...employeeData} : el,
       );

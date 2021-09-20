@@ -112,20 +112,14 @@ const removeEmployee = (employeeId, token, callback) => {
   };
 };
 
-const updateEmployee = (employeeId, employeeData, token, callback) => {
+const updateEmployee = (employeeData, token, callback) => {
   return dispatch => {
     try {
-      updateEmployeeCall(employeeId, employeeData, token)
+      updateEmployeeCall(employeeData, token)
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(
-              updateEmployeeActionSuccess(
-                response.data,
-                employeeId,
-                employeeData,
-              ),
-            );
+            dispatch(updateEmployeeActionSuccess(response.data, employeeData));
             callback();
           } else {
             throw 'Something went wrong';

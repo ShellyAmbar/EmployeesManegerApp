@@ -71,11 +71,10 @@ const removeEmployeeActionError = error => {
 };
 
 // Update
-const updateEmployeeActionSuccess = (data, employeeId, employeeData) => {
+const updateEmployeeActionSuccess = (data, employeeData) => {
   return {
     type: UPDATE_EMPLOYEE_REQUEST_SUCCESS,
     payload: data,
-    employeeId,
     employeeData,
   };
 };

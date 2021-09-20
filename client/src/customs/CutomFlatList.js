@@ -20,7 +20,10 @@ const CutomFlatList = props => {
             <View style={styles.ListItem}>
               <Image
                 source={{
-                  uri: item.photoUrl,
+                  uri:
+                    item.photoUrl || item.photoUrl === ''
+                      ? 'https://image.flaticon.com/icons/png/512/912/912214.png'
+                      : item.photoUrl,
                 }}
                 style={styles.image}
               />

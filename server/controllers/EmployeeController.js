@@ -52,8 +52,8 @@ const setEmployee = (req, res, next) => {
 };
 
 const updateEmployee = (req, res, next) => {
-  let employeeId = req.body.employeeId;
-  let updateData = {
+  let employeeId = req.body._id;
+  let employee = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
@@ -64,15 +64,11 @@ const updateEmployee = (req, res, next) => {
     age: req.body.age,
     photoUrl: "",
   };
-  if (req.files) {
-    let path = "";
-    req.files.forEach(function (files, index, arr) {
-      path = path + files.path + ",";
-    });
-    path = path.substring(0, path.lastIndexOf(","));
-    updateData.photoUrl = path;
+  if (req.file) {
+    let path = req.file.path;
+    employee.photoPath = path;
   }
-  Emplyee.findByIdAndUpdate(employeeId, { $set: updateData })
+  Emplyee.findByIdAndUpdate(employeeId, { $set: employee })
     .then(() => {
       res.json({
         message: "Updated",

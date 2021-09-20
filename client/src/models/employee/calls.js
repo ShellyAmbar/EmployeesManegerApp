@@ -28,7 +28,7 @@ const getEmployeesCall = (userId, token) => {
   });
 };
 
-const updateEmployeeCall = (employeeId, employeeData, token) => {
+const updateEmployeeCall = (employeeData, token) => {
   const url = 'http://192.168.1.45:3000/api/employee/updateEmployee';
 
   return axios({
@@ -38,13 +38,13 @@ const updateEmployeeCall = (employeeId, employeeData, token) => {
       'Content-Type': 'application/json',
       Authorization: 'bearer ' + token,
     },
-    data: {...employeeData, employeeId},
+    data: {...employeeData},
   });
 };
 
 const setEmployeeCall = (employee, token) => {
   const url = 'http://192.168.1.45:3000/api/employee/setEmployee';
-
+  console.log('setEmployeeCall', employee);
   return axios({
     method: 'post',
     url,
@@ -52,7 +52,7 @@ const setEmployeeCall = (employee, token) => {
       'Content-Type': 'application/json',
       Authorization: 'bearer ' + token,
     },
-    data: {employee: employee},
+    data: {...employee},
   });
 };
 

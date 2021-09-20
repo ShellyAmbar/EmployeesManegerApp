@@ -7,30 +7,86 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const CutomFloatingButton = () => {
-  let anination = new Animated.Value(0);
+const CutomFloatingButton = props => {
+  let animation = new Animated.Value(0);
+  let open = false;
+  const toggleMenu = () => {
+    const toValue = open ? 0 : 1;
+
+    Animated.spring(animation, {
+      useNativeDriver: true,
+      toValue,
+      friction: 5,
+    }).start();
+    open = !open;
+  };
+
+  const rotation = {
+    transform: [
+      {
+        rotate: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '45deg'],
+        }),
+      },
+    ],
+  };
+
+  const button1 = {
+    transform: [
+      {
+        scale: animation,
+      },
+      {
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -60],
+        }),
+      },
+    ],
+  };
+  const button2 = {
+    transform: [
+      {
+        scale: animation,
+      },
+      {
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -110],
+        }),
+      },
+    ],
+  };
+
+  const opacity = animation.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, 0, 1],
+  });
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => props.onClickButton2()}>
         <Animated.View
           style={[
             styles.button,
             styles.secondButton,
             styles.thirdButton,
-            styles.menu,
+            button2,
           ]}>
-          <Icon name="question" size={20} color="#fff" />
+          <Icon name="question" size={20} color="orange" />
         </Animated.View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
-        <Animated.View
-          style={[styles.button, styles.secondButton, styles.menu]}>
-          <Icon name="adduser" size={20} color="#fff" />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          props.onClickButton1();
+        }}>
+        <Animated.View style={[styles.button, styles.secondButton, button1]}>
+          <Icon name="adduser" size={20} color="orange" />
         </Animated.View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
-        <Animated.View style={[styles.button, styles.menu]}>
+      <TouchableWithoutFeedback onPress={toggleMenu}>
+        <Animated.View style={[styles.button, styles.menu, rotation]}>
           <Icon name="plus" size={24} color="#fff" />
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -63,13 +119,15 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 48 / 2,
-    backgroundColor: '#0000',
-    marginBottom: 10,
+    backgroundColor: '#FFF',
+    marginBottom: 5,
+    //  elevation: 40,
   },
   thirdButton: {
     width: 40,
     height: 40,
     borderRadius: 40 / 2,
+    // elevation: 50,
   },
   menu: {
     backgroundColor: 'orange',
