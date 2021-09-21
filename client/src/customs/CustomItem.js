@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 30,
-    marginRight: 20,
+    margin: 20,
   },
   textTitle: {
     fontSize: 20,

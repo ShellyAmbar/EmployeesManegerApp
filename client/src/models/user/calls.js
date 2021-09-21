@@ -1,28 +1,30 @@
-const updateUser = ({userId, token}) => {
-  const url = 'http://localhost:3000/api/user/updateUser';
+const axios = require('axios');
 
-  const requestOptions = {
-    method: 'PUT',
+const updateUserCall = (user, token) => {
+  const url = 'http://192.168.1.45:3000/api/user/updateUser';
+  console.log('updateUserCall', user);
+  return axios({
+    method: 'put',
+    url,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
+      Authorization: 'bearer ' + token,
     },
-    body: JSON.stringify({userId: userId}),
-  };
-  return fetch(url, requestOptions);
+    data: {...user},
+  });
 };
 
-const deleteUser = ({userId, token}) => {
-  const url = 'http://localhost:3000/api/user/deleteUser';
+const deleteUserCall = (userId, token) => {
+  const url = 'http://192.168.1.45:3000/api/user/deleteUser';
 
-  const requestOptions = {
-    method: 'DELETE',
+  return axios({
+    method: 'delete',
+    url,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
+      Authorization: 'bearer ' + token,
     },
-    body: JSON.stringify({userId: userId}),
-  };
-  return fetch(url, requestOptions);
+    data: {userId: userId},
+  });
 };
-export {updateUser, deleteUser};
+export {updateUserCall, deleteUserCall};

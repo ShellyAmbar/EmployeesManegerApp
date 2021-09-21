@@ -23,10 +23,11 @@ const removeUserActionError = error => {
 };
 
 // Update
-const updateUserActionSuccess = payload => {
+const updateUserActionSuccess = (payload, user) => {
   return {
     type: UPDATE_USER_REQUEST_SUCCESS,
     payload: payload,
+    user,
   };
 };
 const updateUserActionError = error => {

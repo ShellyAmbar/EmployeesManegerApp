@@ -5,6 +5,8 @@ import {
   SIGNUP_REQUEST_SUCCESS,
   LOGOUT_REQUEST_FAILURE,
   LOGOUT_REQUEST_SUCCESS,
+  GET_TOKEN_REQUEST_SUCCESS,
+  GET_TOKEN_REQUEST_FAILURE,
 } from './types';
 
 const loginActionSuccess = data => {
@@ -46,6 +48,19 @@ const logoutActionError = error => {
   };
 };
 
+const getTokenActionSuccess = data => {
+  return {
+    type: GET_TOKEN_REQUEST_SUCCESS,
+    payload: data,
+  };
+};
+const getTokenActionError = error => {
+  return {
+    type: GET_TOKEN_REQUEST_FAILURE,
+    err: error,
+  };
+};
+
 export {
   loginActionError,
   loginActionSuccess,
@@ -53,4 +68,6 @@ export {
   signupActionSuccess,
   logoutActionError,
   logoutActionSuccess,
+  getTokenActionError,
+  getTokenActionSuccess,
 };

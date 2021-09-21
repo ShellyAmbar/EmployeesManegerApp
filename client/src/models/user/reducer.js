@@ -5,57 +5,34 @@ import {
   UPDATE_USER_REQUEST_SUCCESS,
 } from './types';
 const initialState = {
-  users: [],
+  user: {},
+  message: '',
+  err: '',
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case REMOVE_USER_REQUEST_SUCCESS: {
-      const userItem = action.payload.payload;
-      try {
-        console.log('state.users', state.users);
-        let filteredList = state.users.filter(item => {
-          console.log('item', item);
-          if (item) {
-            return userItem.id !== item.id;
-          } else return false;
-        });
+      const message = action.payload.message;
 
-        state.users = filteredList;
-      } catch (err) {
-        console.log('err', err);
-      }
-
-      return {...state, users: [...state.users]};
+      return {...state, user: {}, message, err: ''};
     }
 
     case REMOVE_USER_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return state;
+      const err = action.err;
+      return {...state, err};
     }
 
     case UPDATE_USER_REQUEST_SUCCESS: {
-      const userItem = action.payload.payload;
-      try {
-        console.log('state.users', state.users);
-        let filteredList = state.users.filter(item => {
-          console.log('item', item);
-          if (item) {
-            return userItem.id !== item.id;
-          } else return false;
-        });
+      const user = action.user;
+      const message = action.payload.message;
 
-        state.users = filteredList;
-      } catch (err) {
-        console.log('err', err);
-      }
-
-      return {...state, users: [...state.users]};
+      return {...state, user: {...user}, message, err: ''};
     }
 
     case UPDATE_USER_REQUEST_FAILURE: {
-      const {err} = action.err;
-      return state;
+      const err = action.err;
+      return {...state, err};
     }
 
     default:

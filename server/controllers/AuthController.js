@@ -127,13 +127,15 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res, next) => {
-  let refreshToken = req.body.refreshToken;
-  let token = req.body.token;
+  // let refreshToken = req.body.refreshToken;
+  // let token = req.body.token;
   // jwt.destroy(refreshToken);
   // jwt.destroy(token);
-
+  console.log("logout");
   res.status(200).json({
     message: "token destroyed successfully.",
+    refreshToken: "",
+    token: "",
   });
 };
 

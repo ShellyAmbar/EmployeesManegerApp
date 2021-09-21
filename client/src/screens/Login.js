@@ -37,8 +37,8 @@ const Login = () => {
           console.log('authState.err', authState.err);
         }
         if (authState.message) {
-          console.log('authState.message', authState.message);
-          navigation.navigate('Tabs');
+          console.log('authState', authState);
+          //  navigation.navigate('Tabs');
         }
       });
     } catch (e) {

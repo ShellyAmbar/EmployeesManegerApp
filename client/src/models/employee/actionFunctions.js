@@ -40,11 +40,10 @@ const getEmployeeActionError = error => {
 };
 //SET
 
-const addEmployeeActionSuccess = (data, employee) => {
+const addEmployeeActionSuccess = data => {
   return {
     type: ADD_EMPLOYEE_REQUEST_SUCCESS,
     payload: data,
-    employee,
   };
 };
 const addEmployeeActionError = error => {
@@ -71,11 +70,10 @@ const removeEmployeeActionError = error => {
 };
 
 // Update
-const updateEmployeeActionSuccess = (data, employeeData) => {
+const updateEmployeeActionSuccess = data => {
   return {
     type: UPDATE_EMPLOYEE_REQUEST_SUCCESS,
     payload: data,
-    employeeData,
   };
 };
 const updateEmployeeActionError = error => {

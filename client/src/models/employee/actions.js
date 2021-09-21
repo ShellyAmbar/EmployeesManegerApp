@@ -71,7 +71,7 @@ const addEmployee = (employee, token, callback) => {
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(addEmployeeActionSuccess(response.data, employee));
+            dispatch(addEmployeeActionSuccess(response.data));
             callback();
           } else {
             throw 'Something went wrong';

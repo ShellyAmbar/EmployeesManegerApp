@@ -11,7 +11,7 @@ export default function AuthStack() {
         headerShown: false,
       }}
       initialRouteName={'Login'}>
-      <Stack.Screen name="Tabs" component={Tabs} />
+      {/* <Stack.Screen name="Tabs" component={Tabs} /> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>

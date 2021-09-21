@@ -9,16 +9,19 @@ import {useSelector} from 'react-redux';
 const Routes = () => {
   const authState = useSelector(state => state.auth);
   const [user, setUser] = useState(false);
+  const [token, settoken] = useState(authState.refreshToken);
 
   useEffect(() => {
     if (
       authState.user &&
       Object.keys(authState).length !== 0 &&
-      Object.keys(authState.user).length !== 0
+      Object.keys(authState.user).length === 0
     ) {
       setUser(false);
+    } else {
+      setUser(true);
     }
-  }, []);
+  }, [authState.refreshToken]);
 
   return (
     <NavigationContainer>

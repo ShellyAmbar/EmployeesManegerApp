@@ -5,6 +5,8 @@ import {
   signupActionSuccess,
   logoutActionError,
   logoutActionSuccess,
+  getTokenActionError,
+  getTokenActionSuccess,
 } from './actionFunctions';
 import {LOGIN_REQUEST, SIGNUP_REQUEST, LOGOUT_REQUEST} from './types';
 import {loginUser, signupUser, logoutUser, getUserToken} from './calls';
@@ -74,12 +76,12 @@ const signup = (username, password, callback) => {
   };
 };
 
-const logout = (refreshToken, callback) => {
+const logout = (refreshToken, token, callback) => {
   return dispatch => {
     try {
-      logoutUser(refreshToken)
+      logoutUser(refreshToken, token)
         .then(response => {
-          console.log('response', response.data);
+          console.log('responseLogout', response.data);
           if (response.status === 200 || response.status === 201) {
             dispatch(logoutActionSuccess(response.data));
             callback();
@@ -93,7 +95,7 @@ const logout = (refreshToken, callback) => {
         });
     } catch (error) {
       console.log(error);
-      logoutActionError(error);
+      dispatch(logoutActionError(error));
       callback();
     }
   };
@@ -106,7 +108,7 @@ const getToken = (refreshToken, callback) => {
         .then(response => {
           console.log('response', response.data);
           if (response.status === 200 || response.status === 201) {
-            dispatch(logoutActionSuccess(response.data));
+            dispatch(getTokenActionSuccess(response.data));
             callback();
           } else {
             throw 'Something went wrong';
@@ -118,7 +120,7 @@ const getToken = (refreshToken, callback) => {
         });
     } catch (error) {
       console.log(error);
-      logoutActionError(error);
+      dispatch(getTokenActionError(error));
       callback();
     }
   };

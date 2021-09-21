@@ -13,7 +13,7 @@ const logoutUser = (refreshToken, token) => {
   const url = 'http://192.168.1.45:3000/api/auth/logout';
   const headers = {
     'Content-Type': 'application/json',
-    Authorization: 'bearer' + token,
+    Authorization: 'bearer ' + token,
   };
 
   return axios.post(

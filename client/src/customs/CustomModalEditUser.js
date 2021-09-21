@@ -11,23 +11,19 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-const CustomModalEditEmployee = ({
+const CustomModalEditUser = ({
   visible,
-  employee,
+  user,
   onClosePressed,
   onDonePressed,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
-  const [age, setage] = useState('');
-  const [address, setaddress] = useState('');
   const [email, setemail] = useState('');
   const [phone, setphone] = useState('');
-  const [roll, setroll] = useState('');
-  const [startDate, setstartDate] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
-  const [isValid, setisValid] = useState(false);
+  const [organisation, setOrganisation] = useState('');
 
   const scaleValue = useRef(new Animated.Value(0)).current;
   const toggleModal = () => {
@@ -49,18 +45,14 @@ const CustomModalEditEmployee = ({
   };
   useEffect(() => {
     toggleModal();
-    console.log('useEffect', employee);
-    if (employee.length > 1) {
-      setfirstName(employee.firstName);
-      setlastName(employee.lastName);
-      setaddress(employee.address);
-      setage(employee.age ? `${employee.age}` : '');
-      setemail(employee.email);
-      setphone(employee.phone);
-      setroll(employee.roll);
-      setstartDate(employee.startDate);
-      setPhotoUrl(employee.photoUrl);
-    }
+    console.log('useEffect', user);
+    setfirstName(user.firstName);
+    setlastName(user.lastName);
+    setemail(user.email);
+    setphone(user.phone);
+    setOrganisation(user.organisation);
+
+    setPhotoUrl(user.photoUrl);
   }, [visible]);
   return (
     <Modal transparent visible={visible}>
@@ -91,23 +83,11 @@ const CustomModalEditEmployee = ({
               />
               <TextInput
                 style={styles.textInput}
-                placeholder="Enter Roll"
-                value={roll}
-                onChangeText={value => setroll(value)}
+                placeholder="Enter Organisation"
+                value={organisation}
+                onChangeText={value => setOrganisation(value)}
               />
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Age"
-                value={age}
-                keyboardType="numeric"
-                onChangeText={value => setage(value.toString())}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Address"
-                value={address}
-                onChangeText={value => setaddress(value)}
-              />
+
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter Email"
@@ -120,12 +100,7 @@ const CustomModalEditEmployee = ({
                 value={phone}
                 onChangeText={value => setphone(value)}
               />
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Start Date"
-                value={startDate}
-                onChangeText={value => setstartDate(value)}
-              />
+
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter Photo Url"
@@ -134,39 +109,17 @@ const CustomModalEditEmployee = ({
               />
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => {
-                  if (
-                    firstName.length == 0 ||
-                    lastName.length == 0 ||
-                    email.length == 0 ||
-                    phone.length == 0 ||
-                    roll.length == 0 ||
-                    address.length == 0 ||
-                    age.length == 0
-                  ) {
-                    setisValid(false);
-                  } else {
-                    setisValid(true);
-                  }
-
-                  if (isValid) {
-                    onDonePressed({
-                      firstName,
-                      lastName,
-                      email,
-                      phone,
-                      photoUrl,
-                      roll,
-                      address,
-
-                      startDate,
-                      age: age ? Number(age) : 0,
-
-                      organisation: employee.organisation,
-                      _id: employee._id ? employee._id : '',
-                    });
-                  }
-                }}>
+                onPress={() =>
+                  onDonePressed({
+                    firstName: firstName ? firstName : '',
+                    lastName: lastName ? lastName : '',
+                    email: email ? email : '',
+                    phone: phone ? phone : '',
+                    photoUrl: photoUrl ? photoUrl : '',
+                    organisation: user.organisation,
+                    _id: user._id,
+                  })
+                }>
                 <Text style={styles.text}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -177,7 +130,7 @@ const CustomModalEditEmployee = ({
   );
 };
 
-export default CustomModalEditEmployee;
+export default CustomModalEditUser;
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,

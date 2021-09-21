@@ -39,11 +39,12 @@ const reducer = (state = initialState, action) => {
     }
     case ADD_EMPLOYEE_REQUEST_SUCCESS: {
       const message = action.payload.message;
-      const employee = action.employee;
+      const employee = action.payload.employee;
+
       return {
         ...state,
-        // employees: [...state.employees, employee],
-        // err: '',
+        employees: [...state.employees, employee],
+        err: '',
         message,
       };
     }

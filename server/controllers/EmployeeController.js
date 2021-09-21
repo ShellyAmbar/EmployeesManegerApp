@@ -35,9 +35,11 @@ const setEmployee = (req, res, next) => {
 
     employee
       .save()
-      .then((user) => {
+      .then(() => {
+        console.log(employee);
         res.json({
-          message: "User added succesfully",
+          message: "employee added succesfully",
+          employee,
         });
       })
       .catch((err) => {

@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
 
     marginBottom: 10,
     borderRadius: 30,
-    marginRight: 20,
   },
   image: {
     borderColor: '#000',

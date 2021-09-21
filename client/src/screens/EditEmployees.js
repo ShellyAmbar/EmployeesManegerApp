@@ -12,6 +12,7 @@ const EditEmployees = () => {
   const authState = useSelector(state => state.auth);
   const [visivleModal, setVisivleModal] = useState(false);
   const [modalData, setModalData] = useState({});
+  const [employees, setEmployees] = useState(employeesState.employees);
   const [isAddNewEmployee, setisAddNewEmployee] = useState(false);
   const dispatch = useDispatch();
   const {
@@ -30,6 +31,10 @@ const EditEmployees = () => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    setEmployees(employeesState.employees);
+  }, [employeesState.employees]);
 
   const onEditEmployee = employee => {
     getToken(authState.refreshToken, () => {
@@ -51,9 +56,6 @@ const EditEmployees = () => {
     getToken(authState.refreshToken, () => {
       addEmployee(employee, authState.token, () => {
         console.log('employee added');
-        getEmployees(authState.user._id, authState.token, () => {
-          console.log('getEmployesFinished');
-        });
       });
     });
   };
@@ -73,7 +75,7 @@ const EditEmployees = () => {
 
   const openPopUpEmployee = employee => {
     const organisation = authState.user.organisation;
-
+    console.log('openPopUpEmployee', authState);
     setModalData({...employee, organisation});
     setVisivleModal(true);
   };
@@ -113,10 +115,10 @@ const EditEmployees = () => {
 
       {employeesState.employees && (
         <CutomFlatList
-          data={employeesState.employees}
+          data={employees}
           rederItem={rederItems()}
           numColumns={1}
-          keyExtractor={item => item._id}
+          keyExtractor={(item, index) => index}
         />
       )}
       <CutomFloatingButton onClickButton1={handleClickAddEmployee} />

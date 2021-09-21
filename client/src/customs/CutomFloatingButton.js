@@ -74,7 +74,7 @@ const CutomFloatingButton = props => {
             styles.thirdButton,
             button2,
           ]}>
-          <Icon name="question" size={20} color="orange" />
+          <Icon name="question" size={20} color="#fff" />
         </Animated.View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
@@ -82,7 +82,7 @@ const CutomFloatingButton = props => {
           props.onClickButton1();
         }}>
         <Animated.View style={[styles.button, styles.secondButton, button1]}>
-          <Icon name="adduser" size={20} color="orange" />
+          <Icon name="adduser" size={20} color="#fff" />
         </Animated.View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={toggleMenu}>
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowOffset: {height: 20},
     elevation: 30,
-    backgroundColor: '#0000',
+    backgroundColor: 'orange',
   },
   secondButton: {
     width: 48,
     height: 48,
     borderRadius: 48 / 2,
-    backgroundColor: '#FFF',
+
     marginBottom: 5,
     //  elevation: 40,
   },

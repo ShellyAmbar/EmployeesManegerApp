@@ -1,20 +1,17 @@
 const User = require("../models/User");
 
 const updateUser = (req, res, next) => {
-  let userId = req.body.userId;
+  let userId = req.body._id;
   let updateData = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     phone: req.body.phone,
-    photoUrl: "",
+    photoUrl: req.body.photoUrl,
+    organisation: req.body.organisation,
   };
-  if (req.files) {
-    let path = "";
-    req.files.forEach(function (files, index, arr) {
-      path = path + files.path + ",";
-    });
-    path = path.substring(0, path.lastIndexOf(","));
+  if (req.file) {
+    path = req.file.path;
     updateData.photoUrl = path;
   }
   User.findByIdAndUpdate(userId, { $set: updateData })
