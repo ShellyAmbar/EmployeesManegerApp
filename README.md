@@ -1,2 +1,3 @@
 # EmployeesManegerApp
-EmployeesManegerApp - FullStack React Native + NodeJS + MongoDB + readux hooks
+
+FullStack React Native + NodeJS + MongoDB + readux hooks
