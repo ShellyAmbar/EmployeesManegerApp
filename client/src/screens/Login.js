@@ -47,67 +47,80 @@ const Login = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        //  source={require('@Asset/6.png')}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.container}>
+        <Text style={styles.textTitle}>Login</Text>
+        <Image
+          source={{
+            uri: 'https://image.flaticon.com/icons/png/512/912/912214.png',
+          }}
+          style={styles.image}
+          // resizeMode="contain"
+        />
 
-      <FormInput
-        labelValue={email}
-        onChangeText={userEmail => setEmail(userEmail)}
-        placeholderText="Email"
-        iconType="user"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+        <FormInput
+          labelValue={email}
+          onChangeText={userEmail => setEmail(userEmail)}
+          placeholderText="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
 
-      <FormInput
-        labelValue={password}
-        onChangeText={userPassword => setPassword(userPassword)}
-        placeholderText="Password"
-        iconType="lock"
-        secureTextEntry={true}
-      />
+        <FormInput
+          isEncript={true}
+          labelValue={password}
+          onChangeText={userPassword => setPassword(userPassword)}
+          placeholderText="Password"
+          iconType="lock"
+        />
 
-      <FormButton
-        buttonTitle="Sign In"
-        onPress={() => loginRequest(email, password)}
-      />
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      {Platform.OS === 'android' ? (
-        <View>
-          <SocialButton
-            buttonTitle="Sign In with Facebook"
-            btnType="facebook"
-            color="#4867aa"
-            backgroundColor="#e6eaf4"
-            onPress={() => {}}
-          />
-
-          <SocialButton
-            buttonTitle="Sign In with Google"
-            btnType="google"
-            color="#de4d41"
-            backgroundColor="#f5e7ea"
-            onPress={() => {}}
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+            <Text style={styles.navButtonText}>Forgot Password?</Text>
+          </TouchableOpacity>
+          <FormButton
+            style={styles.button}
+            buttonTitle="Sign In"
+            onPress={() => loginRequest(email, password)}
           />
         </View>
-      ) : null}
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
-        </Text>
-      </TouchableOpacity>
+        {Platform.OS === 'android' ? (
+          <View>
+            <SocialButton
+              buttonTitle="Sign In with Facebook"
+              btnType="facebook"
+              color="#4867aa"
+              backgroundColor="#e6eaf4"
+              onPress={() => {}}
+            />
+
+            <SocialButton
+              buttonTitle="Sign In with Google"
+              btnType="google"
+              color="#de4d41"
+              backgroundColor="#f5e7ea"
+              onPress={() => {}}
+            />
+          </View>
+        ) : null}
+
+        <View style={styles.signupButton}>
+          <Text>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.navButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.termsButton}
+          // onPress={() => navigation.navigate('SignUp')}
+        >
+          <Text style={styles.termsButtonText}>
+            Our Terms of Use and Privacy Policy
+          </Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -115,14 +128,23 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
+  scrollView: {
+    height: '100%',
+    backgroundColor: '#ffff',
+  },
   container: {
+    height: '100%',
     backgroundColor: '#ffff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
     paddingTop: 50,
   },
-  logo: {
+  image: {
+    marginTop: 60,
+    borderRadius: 80,
+    borderWidth: 1,
+    borderColor: '#afa3f5',
     height: 150,
     width: 150,
     resizeMode: 'cover',
@@ -133,10 +155,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#051d5f',
   },
+  textTitle: {
+    top: 30,
+    start: 30,
+    position: 'absolute',
+    fontSize: 40,
+    marginBottom: 10,
+    fontWeight: '700',
+  },
   navButton: {
     marginTop: 15,
   },
   forgotButton: {
+    marginVertical: 35,
+  },
+  signupButton: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     marginVertical: 35,
   },
   navButtonText: {
@@ -144,5 +182,29 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#2e64e5',
     fontFamily: 'Lato-Regular',
+  },
+  button: {
+    position: 'absolute',
+    end: 0,
+    backgroundColor: '#afa3f5',
+    borderRadius: 10,
+    padding: 20,
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+
+    alignItems: 'center',
+    width: '100%',
+  },
+  termsButton: {
+    position: 'absolute',
+    bottom: 20,
+    borderBottomColor: '#000',
+    borderBottomWidth: 1,
+  },
+  termsButtonText: {
+    fontSize: 15,
+    color: '#000',
   },
 });

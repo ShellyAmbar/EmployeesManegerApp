@@ -41,17 +41,25 @@ const login = (username, password, callback) => {
   };
 };
 
-const signup = (username, password, callback) => {
+const signup = (
+  email,
+  fistName,
+  lastName,
+  organization,
+  phone,
+  password,
+  callback,
+) => {
   return dispatch => {
     try {
       const user = {
-        firstName: 'shany',
-        lastName: 'bar',
+        firstName: fistName,
+        lastName: lastName,
         photoUrl: '',
-        email: username,
+        email: email,
         phone: '767869868768',
         password: password.toString(),
-        organisation: 'Google',
+        organisation: organization,
       };
 
       signupUser(user)

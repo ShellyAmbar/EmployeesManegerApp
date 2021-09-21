@@ -28,6 +28,10 @@ const CustomModalEditEmployee = ({
   const [startDate, setstartDate] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [isValid, setisValid] = useState(false);
+  let emailPattern = new RegExp(
+    /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/,
+  );
+  let phonePattern = new RegExp(/^[0-9\b]+$/);
 
   const scaleValue = useRef(new Animated.Value(0)).current;
   const toggleModal = () => {
@@ -135,36 +139,45 @@ const CustomModalEditEmployee = ({
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  if (
-                    firstName.length == 0 ||
-                    lastName.length == 0 ||
-                    email.length == 0 ||
-                    phone.length == 0 ||
-                    roll.length == 0 ||
-                    address.length == 0 ||
-                    age.length == 0
-                  ) {
-                    setisValid(false);
-                  } else {
-                    setisValid(true);
-                  }
+                  try {
+                    if (
+                      firstName.length == 0 ||
+                      lastName.length == 0 ||
+                      email.length == 0 ||
+                      phone.length == 0 ||
+                      roll.length == 0 ||
+                      address.length == 0 ||
+                      age.length == 0
+                    ) {
+                      setisValid(false);
+                      throw 'Empty Data.';
+                    } else if (!emailPattern.test(email)) {
+                      throw 'Email is not valid.';
+                    } else if (!phonePattern.test(phone)) {
+                      throw 'Phone is not valid.';
+                    } else {
+                      setisValid(true);
+                    }
 
-                  if (isValid) {
-                    onDonePressed({
-                      firstName,
-                      lastName,
-                      email,
-                      phone,
-                      photoUrl,
-                      roll,
-                      address,
+                    if (isValid) {
+                      onDonePressed({
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        photoUrl,
+                        roll,
+                        address,
 
-                      startDate,
-                      age: age ? Number(age) : 0,
+                        startDate,
+                        age: age ? Number(age) : 0,
 
-                      organisation: employee.organisation,
-                      _id: employee._id ? employee._id : '',
-                    });
+                        organisation: employee.organisation,
+                        _id: employee._id ? employee._id : '',
+                      });
+                    }
+                  } catch (err) {
+                    alert(err);
                   }
                 }}>
                 <Text style={styles.text}>Done</Text>

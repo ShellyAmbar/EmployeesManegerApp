@@ -1,15 +1,32 @@
-import React from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, TextInput, StyleSheet, Image} from 'react-native';
 import {windowHeight, windowWidth} from '../utils/Dimentions';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 
 //import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
+const FormInput = ({
+  isEncript,
+  labelValue,
+  placeholderText,
+  iconType,
+  ...rest
+}) => {
+  const [isEncriptOpen, setisEncriptOpen] = useState(false);
+  const [iconName, seticonName] = useState('eye-with-line');
+
+  const onPressEncription = () => {
+    if (isEncriptOpen) {
+      seticonName('eye-with-line');
+      setisEncriptOpen(false);
+    } else {
+      seticonName('eye');
+      setisEncriptOpen(true);
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
-      <View style={styles.iconStyle}>
-        {/* <AntDesign name={iconType} size={25} color="#666" /> */}
-      </View>
       <TextInput
         value={labelValue}
         style={styles.input}
@@ -17,7 +34,15 @@ const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
         placeholder={placeholderText}
         placeholderTextColor="#666"
         {...rest}
+        secureTextEntry={!isEncriptOpen && isEncript}
       />
+      {isEncript && (
+        <IconEntypo
+          size={20}
+          onPress={() => onPressEncription()}
+          name={iconName}
+        />
+      )}
     </View>
   );
 };
@@ -30,22 +55,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     height: windowHeight / 15,
-    borderColor: '#ccc',
-    borderRadius: 3,
-    borderWidth: 1,
+    borderBottomColor: '#ccc',
+
+    borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  iconStyle: {
-    padding: 10,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRightColor: '#ccc',
-    borderRightWidth: 1,
-    width: 50,
-  },
+
   input: {
     padding: 10,
     flex: 1,

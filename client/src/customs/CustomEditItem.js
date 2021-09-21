@@ -1,7 +1,11 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 
 const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
+  const onClickMore = () => {};
   return (
     <View style={styles.ListItem}>
       <Image
@@ -13,15 +17,33 @@ const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
         }}
         style={styles.image}
       />
+      <Pressable onPress={() => onClickMore()} style={styles.buttonMore}>
+        <Feather size={20} name="more-vertical" />
+      </Pressable>
       <View>
         <Text
           style={
             styles.textTitle
           }>{`${item.firstName} ${item.lastName},${item.age}`}</Text>
-        <Text style={styles.text}>{`Roll: ${item.roll}`}</Text>
-        <Text style={styles.text}>{`Phone: ${item.phone}`}</Text>
-        <Text style={styles.text}>{`Email: ${item.email}`}</Text>
-        <View style={{display: 'flex', flexDirection: 'row'}}>
+        <View style={styles.row}>
+          <Ionicons size={20} style={styles.icon} name="briefcase-outline" />
+          <View style={styles.col}>
+            <Text style={styles.text}>{`Roll: ${item.roll}`}</Text>
+            <Text
+              style={styles.textLight}>{`Start Date: ${item.startDate}`}</Text>
+          </View>
+        </View>
+
+        <View style={styles.row}>
+          <AntDesign size={20} style={styles.icon} name="phone" />
+          <Text style={styles.text}>{`Phone: ${item.phone}`}</Text>
+        </View>
+        <View style={styles.row}>
+          <Ionicons size={20} style={styles.icon} name="location-outline" />
+          <Text style={styles.text}>{`Address: ${item.address}`}</Text>
+        </View>
+
+        {/* <View style={{display: 'flex', flexDirection: 'row'}}>
           <Pressable
             onPress={() => {
               onEdit(item);
@@ -36,7 +58,7 @@ const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
             style={styles.button}>
             <Text style={styles.text}>Delete</Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -46,7 +68,7 @@ const styles = StyleSheet.create({
   ListItem: {
     width: '100%',
     display: 'flex',
-    padding: 5,
+    padding: 20,
 
     flexDirection: 'row',
     backgroundColor: '#ffff',
@@ -57,11 +79,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 30,
   },
+  icon: {
+    marginEnd: 5,
+  },
+  buttonMore: {
+    alignSelf: 'baseline',
+    position: 'absolute',
+    top: 20,
+    end: 20,
+  },
   image: {
     borderColor: '#000',
     borderWidth: 1,
     width: 70,
     height: 70,
+    alignSelf: 'baseline',
     borderRadius: 30,
     marginRight: 20,
   },
@@ -72,6 +104,16 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: '400',
+  },
+  textLight: {
+    fontSize: 15,
+    fontWeight: '200',
+  },
+  row: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   button: {
     alignItems: 'center',
