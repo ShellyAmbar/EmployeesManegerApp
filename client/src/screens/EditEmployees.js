@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import CustomModal from '../customs/CustomModal';
+import CustomEditItem from '../customs/CustomEditItem';
+import CustomModal from '../customs/CustomModalEditEmployee';
 import CutomFlatList from '../customs/CutomFlatList';
 import CutomFloatingButton from '../customs/CutomFloatingButton';
 import {employeeCreators, authCreators} from '../models/root-actions';
@@ -90,6 +91,17 @@ const EditEmployees = () => {
     }
   };
 
+  const rederItems =
+    () =>
+    ({item, index}) => {
+      return (
+        <CustomEditItem
+          item={item}
+          onEdit={handleClickEditEmployee}
+          onDelete={onDeleteEmployee}
+        />
+      );
+    };
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <CustomModal
@@ -102,8 +114,9 @@ const EditEmployees = () => {
       {employeesState.employees && (
         <CutomFlatList
           data={employeesState.employees}
-          edit={handleClickEditEmployee}
-          delete={onDeleteEmployee}
+          rederItem={rederItems()}
+          numColumns={1}
+          keyExtractor={item => item._id}
         />
       )}
       <CutomFloatingButton onClickButton1={handleClickAddEmployee} />

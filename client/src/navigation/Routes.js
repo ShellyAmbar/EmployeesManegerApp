@@ -12,6 +12,7 @@ const Routes = () => {
 
   useEffect(() => {
     if (
+      authState.user &&
       Object.keys(authState).length !== 0 &&
       Object.keys(authState.user).length !== 0
     ) {

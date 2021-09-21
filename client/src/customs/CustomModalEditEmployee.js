@@ -11,7 +11,12 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-const CustomModal = ({visible, employee, onClosePressed, onDonePressed}) => {
+const CustomModalEditEmployee = ({
+  visible,
+  employee,
+  onClosePressed,
+  onDonePressed,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
@@ -136,7 +141,7 @@ const CustomModal = ({visible, employee, onClosePressed, onDonePressed}) => {
                     startDate,
                     age: Number(age),
                     phone,
-                    photoUrl,
+                    photoUrl: photoUrl ? photoUrl : '',
                     organisation: employee.organisation,
                     _id: employee._id,
                   })
@@ -151,7 +156,7 @@ const CustomModal = ({visible, employee, onClosePressed, onDonePressed}) => {
   );
 };
 
-export default CustomModal;
+export default CustomModalEditEmployee;
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
