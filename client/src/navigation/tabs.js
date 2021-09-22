@@ -8,6 +8,8 @@ import {Home, Employees, EditEmployees, User} from '../screens';
 import {COLORS, icons} from '../constants';
 import TabBarCustomButton from '../customs/TabBarCustomButton';
 import CustomTabBar from '../customs/CustomTabBar';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 const Tab = createBottomTabNavigator();
 
 export default function tabs() {
@@ -28,13 +30,11 @@ export default function tabs() {
         component={Home}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              source={icons.home}
-              resizeMethod="auto"
+            <AntDesignIcon
+              name="home"
+              size={18}
               style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? COLORS.primary : COLORS.secondary,
               }}
             />
           ),
@@ -46,13 +46,11 @@ export default function tabs() {
         component={Employees}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              source={icons.list}
-              resizeMethod="auto"
+            <Feather
+              name="list"
+              size={18}
               style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? COLORS.primary : COLORS.secondary,
               }}
             />
           ),
@@ -64,13 +62,11 @@ export default function tabs() {
         component={EditEmployees}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              source={icons.edit}
-              resizeMethod="auto"
+            <AntDesignIcon
+              name="edit"
+              size={18}
               style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? COLORS.primary : COLORS.secondary,
               }}
             />
           ),
@@ -82,13 +78,11 @@ export default function tabs() {
         component={User}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              source={icons.user}
-              resizeMethod="auto"
+            <AntDesignIcon
+              name="user"
+              size={18}
               style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? COLORS.primary : COLORS.secondary,
               }}
             />
           ),

@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   ListItem: {
     width: '100%',
     display: 'flex',
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
 
     flexDirection: 'row',
     backgroundColor: '#ffff',

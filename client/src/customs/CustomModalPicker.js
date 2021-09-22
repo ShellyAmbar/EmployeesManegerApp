@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 20,
     fontWeight: '700',
+    color: 'orange',
   },
   text: {
     fontSize: 18,
