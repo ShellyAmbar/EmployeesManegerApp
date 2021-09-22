@@ -90,10 +90,12 @@ const EditEmployees = () => {
   const onCloseModalPressed = () => {
     setVisivleModal(false);
     setVisibleOptionsModal(false);
+    setEmployeeToEdit({});
   };
 
   const onDoneModalPressed = employee => {
     setVisivleModal(false);
+    setEmployeeToEdit({});
     if (isAddNewEmployee) {
       onAddEmployee(employee);
     } else {

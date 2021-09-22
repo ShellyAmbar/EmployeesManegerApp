@@ -55,7 +55,7 @@ const CustomModalEmployee = ({visible, item, onClosePressed}) => {
               <Image
                 source={{
                   uri:
-                    item.photoUrl || item.photoUrl === ''
+                    !item.photoUrl || item.photoUrl === ''
                       ? 'https://image.flaticon.com/icons/png/512/912/912214.png'
                       : item.photoUrl,
                 }}
