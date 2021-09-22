@@ -3,6 +3,7 @@ import {
   Animated,
   Button,
   Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +11,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Moment from 'moment';
+//import DatePicker from 'react-native-date-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 const CustomModalEditEmployee = ({
   visible,
@@ -25,9 +29,12 @@ const CustomModalEditEmployee = ({
   const [email, setemail] = useState('');
   const [phone, setphone] = useState('');
   const [roll, setroll] = useState('');
-  const [startDate, setstartDate] = useState('');
+  const [startDate, setstartDate] = useState(new Date());
+  const [startDateString, setstartDateString] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
-  const [isValid, setisValid] = useState(false);
+  const [isValid, setisValid] = useState(true);
+  const [title, settitle] = useState('');
+
   let emailPattern = new RegExp(
     /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/,
   );
@@ -51,6 +58,76 @@ const CustomModalEditEmployee = ({
       }).start();
     }
   };
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const getTitle = () => {
+    if (Object.keys(employee).length == 1) {
+      return 'Add Employee';
+    } else {
+      return 'Edit Employee';
+    }
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = date => {
+    console.log(date);
+    Moment.locale('en');
+    setstartDateString(Moment(date).format('D/M/YY'));
+    hideDatePicker();
+  };
+
+  const onPressDone = () => {
+    try {
+      setisValid(true);
+      if (
+        firstName.length === 0 ||
+        lastName.length === 0 ||
+        email.length === 0 ||
+        phone.length === 0 ||
+        roll.length === 0 ||
+        address.length === 0 ||
+        age.length === 0 ||
+        startDateString.length === 0
+      ) {
+        throw 'Empty Data.';
+      }
+      if (!emailPattern.test(email)) {
+        throw 'Email is not valid.';
+      }
+      if (!phonePattern.test(phone)) {
+        throw 'Phone is not valid.';
+      }
+
+      if (isValid) {
+        console.log('valid');
+        onDonePressed({
+          firstName,
+          lastName,
+          email,
+          phone,
+          photoUrl,
+          roll,
+          address,
+          startDate: startDateString,
+          age: age ? Number(age) : 0,
+
+          organisation: employee.organisation,
+          _id: employee._id ? employee._id : '',
+        });
+      }
+    } catch (err) {
+      setisValid(false);
+      alert(err);
+    }
+  };
+
   useEffect(() => {
     toggleModal();
     console.log('useEffect', employee);
@@ -62,7 +139,8 @@ const CustomModalEditEmployee = ({
       setemail(employee.email);
       setphone(employee.phone);
       setroll(employee.roll);
-      setstartDate(employee.startDate);
+      setstartDate(new Date(employee.startDate));
+      setstartDateString(employee.startDate);
       setPhotoUrl(employee.photoUrl);
     } else {
       setfirstName('');
@@ -72,7 +150,8 @@ const CustomModalEditEmployee = ({
       setemail('');
       setphone('');
       setroll('');
-      setstartDate('');
+      setstartDate(new Date());
+      setstartDateString('');
       setPhotoUrl('');
     }
   }, [visible]);
@@ -91,6 +170,8 @@ const CustomModalEditEmployee = ({
               width: '100%',
             }}>
             <View style={styles.content}>
+              <Text style={styles.textTitle}>{getTitle()}</Text>
+
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter First name"
@@ -135,13 +216,22 @@ const CustomModalEditEmployee = ({
                 keyboardType="numeric"
                 onChangeText={value => setphone(value)}
               />
+
               <TextInput
+                onPressIn={showDatePicker}
                 style={styles.textInput}
                 placeholder="Enter Start Date"
-                value={startDate}
-                keyboardType="numeric"
-                onChangeText={value => setstartDate(value)}
+                value={startDateString}
               />
+
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                themeVariant="dark"
+              />
+
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter Photo Url"
@@ -150,47 +240,7 @@ const CustomModalEditEmployee = ({
               />
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => {
-                  try {
-                    if (
-                      firstName.length == 0 ||
-                      lastName.length == 0 ||
-                      email.length == 0 ||
-                      phone.length == 0 ||
-                      roll.length == 0 ||
-                      address.length == 0 ||
-                      age.length == 0
-                    ) {
-                      setisValid(false);
-                      throw 'Empty Data.';
-                    } else if (!emailPattern.test(email)) {
-                      throw 'Email is not valid.';
-                    } else if (!phonePattern.test(phone)) {
-                      throw 'Phone is not valid.';
-                    } else {
-                      setisValid(true);
-                    }
-
-                    if (isValid) {
-                      onDonePressed({
-                        firstName,
-                        lastName,
-                        email,
-                        phone,
-                        photoUrl,
-                        roll,
-                        address,
-                        startDate,
-                        age: age ? Number(age) : 0,
-
-                        organisation: employee.organisation,
-                        _id: employee._id ? employee._id : '',
-                      });
-                    }
-                  } catch (err) {
-                    alert(err);
-                  }
-                }}>
+                onPress={() => onPressDone()}>
                 <Text style={styles.text}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -227,7 +277,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
-    width: '80%',
+    alignSelf: 'center',
+    width: '90%',
     borderRadius: 20,
     borderColor: 'orange',
     borderWidth: 1,
@@ -253,8 +304,9 @@ const styles = StyleSheet.create({
   button: {
     width: '50%',
     borderRadius: 20,
-
-    margin: 5,
+    zIndex: 100,
+    marginTop: 15,
+    marginBottom: 30,
     padding: 10,
 
     backgroundColor: 'orange',
@@ -263,5 +315,12 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 18,
+  },
+  textTitle: {
+    color: 'orange',
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: '700',
+    marginBottom: 10,
   },
 });
