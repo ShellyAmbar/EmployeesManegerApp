@@ -12,9 +12,9 @@ import {
   View,
 } from 'react-native';
 import Moment from 'moment';
-//import DatePicker from 'react-native-date-picker';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
 import Icon from 'react-native-vector-icons/AntDesign';
+import CustomModalDatePicker from './CustomModalDatePicker';
 const CustomModalEditEmployee = ({
   visible,
   employee,
@@ -224,12 +224,17 @@ const CustomModalEditEmployee = ({
                 value={startDateString}
               />
 
-              <DateTimePickerModal
+              {/* <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
                 themeVariant="dark"
+              /> */}
+              <CustomModalDatePicker
+                visible={isDatePickerVisible}
+                onClosePressed={hideDatePicker}
+                onPickDate={handleConfirm}
               />
 
               <TextInput
