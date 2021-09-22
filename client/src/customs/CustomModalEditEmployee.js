@@ -64,6 +64,16 @@ const CustomModalEditEmployee = ({
       setroll(employee.roll);
       setstartDate(employee.startDate);
       setPhotoUrl(employee.photoUrl);
+    } else {
+      setfirstName('');
+      setlastName('');
+      setaddress('');
+      setage('');
+      setemail('');
+      setphone('');
+      setroll('');
+      setstartDate('');
+      setPhotoUrl('');
     }
   }, [visible]);
   return (

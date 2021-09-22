@@ -70,6 +70,7 @@ const EditEmployees = () => {
     //open popup, on callback add him;
     console.log('open');
     setisAddNewEmployee(true);
+    setEmployeeToEdit({});
     openPopUpEmployee({});
   };
 
