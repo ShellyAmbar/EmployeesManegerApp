@@ -54,7 +54,7 @@ const CustomModalEditEmployee = ({
   useEffect(() => {
     toggleModal();
     console.log('useEffect', employee);
-    if (employee.length > 1) {
+    if (Object.keys(employee).length > 1) {
       setfirstName(employee.firstName);
       setlastName(employee.lastName);
       setaddress(employee.address);

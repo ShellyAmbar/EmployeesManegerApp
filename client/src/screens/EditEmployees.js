@@ -14,6 +14,7 @@ const EditEmployees = () => {
   const [visivleModal, setVisivleModal] = useState(false);
   const [visibleOptionsModal, setVisibleOptionsModal] = useState(false);
   const [optionsData, setOptionsData] = useState([]);
+  const [employeeToEdit, setEmployeeToEdit] = useState({});
   const [modalData, setModalData] = useState({});
   const [employees, setEmployees] = useState(employeesState.employees);
   const [isAddNewEmployee, setisAddNewEmployee] = useState(false);
@@ -43,13 +44,15 @@ const EditEmployees = () => {
     getToken(authState.refreshToken, () => {
       updateEmployee(employee, authState.token, () => {
         console.log('employee edited');
+        setEmployeeToEdit({});
       });
     });
   };
-  const onDeleteEmployee = employee => {
+  const onDeleteEmployee = () => {
     getToken(authState.refreshToken, () => {
-      removeEmployee(employee._id, authState.token, () => {
+      removeEmployee(employeeToEdit._id, authState.token, () => {
         console.log('employee removed');
+        setEmployeeToEdit({});
       });
     });
   };
@@ -70,15 +73,16 @@ const EditEmployees = () => {
     openPopUpEmployee({});
   };
 
-  const handleClickEditEmployee = employee => {
+  const handleClickEditEmployee = () => {
     //open popup, on callback add him;
     setisAddNewEmployee(false);
-    openPopUpEmployee(employee);
+    // console.log('employeeToEdit', employeeToEdit);
+    openPopUpEmployee(employeeToEdit);
   };
 
   const openPopUpEmployee = employee => {
     const organisation = authState.user.organisation;
-    console.log('openPopUpEmployee', authState);
+    //  console.log('openPopUpEmployee', authState);
     setModalData({...employee, organisation});
     setVisivleModal(true);
   };
@@ -96,23 +100,24 @@ const EditEmployees = () => {
       onEditEmployee(employee);
     }
   };
-  const handleEditItem = () => {
+  const handleEditItem = employee => {
     console.log('Clicked');
     var options = ['Edit', 'Delete'];
-
+    console.log(employee);
+    setEmployeeToEdit(employee);
     setOptionsData(options);
     setVisibleOptionsModal(true);
   };
 
-  const handleOptionPressed = (item, index) => {
+  const handleOptionPressed = index => {
     setVisibleOptionsModal(false);
     const option = optionsData[index];
     switch (option) {
       case 'Edit':
-        handleClickEditEmployee(item);
+        handleClickEditEmployee();
         break;
       case 'Delete':
-        onDeleteEmployee(item);
+        onDeleteEmployee();
         break;
     }
   };

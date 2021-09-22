@@ -62,7 +62,7 @@ const CustomModalPicker = ({
                 options.map((item, index) => (
                   <Pressable
                     style={styles.item}
-                    onPress={() => onOptionPressed(item, index)}
+                    onPress={() => onOptionPressed(index)}
                     key={index}>
                     <Text style={styles.textTitle}>{`${item}`}</Text>
                   </Pressable>
