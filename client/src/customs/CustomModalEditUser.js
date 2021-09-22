@@ -111,12 +111,12 @@ const CustomModalEditUser = ({
                 style={styles.button}
                 onPress={() =>
                   onDonePressed({
-                    firstName: firstName ? firstName : '',
-                    lastName: lastName ? lastName : '',
-                    email: email ? email : '',
-                    phone: phone ? phone : '',
-                    photoUrl: photoUrl ? photoUrl : '',
-                    organisation: user.organisation,
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    photoUrl,
+                    organisation,
                     _id: user._id,
                   })
                 }>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '80%',
-    height: '80%',
+
     backgroundColor: '#FFF',
     paddingHorizontal: 20,
     paddingVertical: 30,

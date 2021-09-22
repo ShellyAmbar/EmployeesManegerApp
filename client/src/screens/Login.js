@@ -18,8 +18,8 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 import {authCreators} from '../models/root-actions';
 
 const Login = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const {googleLogin, fbLogin} = useContext(AuthContext);
   const authState = useSelector(state => state.auth);
