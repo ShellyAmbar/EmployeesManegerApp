@@ -25,11 +25,23 @@ const Login = () => {
   const authState = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const {login} = bindActionCreators(authCreators, dispatch);
+  let emailPattern = new RegExp(
+    /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/,
+  );
+  let passwordPattern = new RegExp(
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
+  );
 
   const loginRequest = (email, password) => {
     try {
       if (email.length === 0 || password.length === 0) {
         throw 'empthy data';
+      }
+      if (!emailPattern.test(email)) {
+        throw 'Please enter valid email address.';
+      }
+      if (!passwordPattern.test(password)) {
+        throw 'Password should have Upper case chars, special chars and numbers. Try again.';
       }
       console.log(email + password);
       login(email, password, () => {
@@ -42,6 +54,7 @@ const Login = () => {
         }
       });
     } catch (e) {
+      alert(e);
       console.log(e);
     }
   };
@@ -72,7 +85,6 @@ const Login = () => {
           labelValue={password}
           onChangeText={userPassword => setPassword(userPassword)}
           placeholderText="Password"
-          iconType="lock"
         />
 
         <View style={styles.row}>

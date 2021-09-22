@@ -140,14 +140,12 @@ const SignUp = () => {
           labelValue={password}
           onChangeText={userPassword => setPassword(userPassword)}
           placeholderText="Password"
-          iconType="lock"
         />
         <FormInput
           isEncript={true}
           labelValue={repitedPassword}
           onChangeText={userPassword => setRepitedPassword(userPassword)}
           placeholderText="Retype Password"
-          iconType="lock"
         />
 
         <FormButton

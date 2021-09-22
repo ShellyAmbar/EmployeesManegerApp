@@ -9,7 +9,7 @@ const FormInput = ({
   isEncript,
   labelValue,
   placeholderText,
-  iconType,
+
   ...rest
 }) => {
   const [isEncriptOpen, setisEncriptOpen] = useState(false);
@@ -39,6 +39,7 @@ const FormInput = ({
       {isEncript && (
         <IconEntypo
           size={20}
+          style={styles.icon}
           onPress={() => onPressEncription()}
           name={iconName}
         />
@@ -64,7 +65,6 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    padding: 10,
     flex: 1,
     fontSize: 16,
     fontFamily: 'Lato-Regular',
@@ -81,5 +81,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 8,
     borderWidth: 1,
+  },
+  icon: {
+    padding: 10,
+    zIndex: 100,
   },
 });
