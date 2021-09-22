@@ -1,11 +1,17 @@
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 
-const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
-  const onClickMore = () => {};
+const CustomEditItem = ({item, heightOfItem, onClickEditItem}) => {
   return (
     <View style={styles.ListItem}>
       <Image
@@ -17,7 +23,9 @@ const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
         }}
         style={styles.image}
       />
-      <Pressable onPress={() => onClickMore()} style={styles.buttonMore}>
+      <Pressable
+        onPress={() => onClickEditItem(item)}
+        style={styles.buttonMore}>
         <Feather size={20} name="more-vertical" />
       </Pressable>
       <View>
@@ -42,23 +50,6 @@ const CustomEditItem = ({item, onEdit, onDelete, heightOfItem}) => {
           <Ionicons size={20} style={styles.icon} name="location-outline" />
           <Text style={styles.text}>{`Address: ${item.address}`}</Text>
         </View>
-
-        {/* <View style={{display: 'flex', flexDirection: 'row'}}>
-          <Pressable
-            onPress={() => {
-              onEdit(item);
-            }}
-            style={styles.button}>
-            <Text style={styles.text}>Edit</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              onDelete(item);
-            }}
-            style={styles.button}>
-            <Text style={styles.text}>Delete</Text>
-          </Pressable>
-        </View> */}
       </View>
     </View>
   );
@@ -83,6 +74,8 @@ const styles = StyleSheet.create({
     marginEnd: 5,
   },
   buttonMore: {
+    zIndex: 100,
+    padding: 10,
     alignSelf: 'baseline',
     position: 'absolute',
     top: 20,

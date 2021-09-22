@@ -122,12 +122,14 @@ const CustomModalEditEmployee = ({
                 style={styles.textInput}
                 placeholder="Enter Phone"
                 value={phone}
+                keyboardType="numeric"
                 onChangeText={value => setphone(value)}
               />
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter Start Date"
                 value={startDate}
+                keyboardType="numeric"
                 onChangeText={value => setstartDate(value)}
               />
               <TextInput
@@ -168,7 +170,6 @@ const CustomModalEditEmployee = ({
                         photoUrl,
                         roll,
                         address,
-
                         startDate,
                         age: age ? Number(age) : 0,
 

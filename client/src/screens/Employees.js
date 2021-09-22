@@ -57,7 +57,7 @@ const Employees = () => {
         <CutomFlatList
           data={employeesState.employees}
           rederItem={rederItems()}
-          numColumns={2}
+          numColumns={1}
           keyExtractor={item => item._id}
         />
       )}

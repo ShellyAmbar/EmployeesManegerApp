@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CustomEditItem from '../customs/CustomEditItem';
 import CustomModal from '../customs/CustomModalEditEmployee';
+import CustomModalPicker from '../customs/CustomModalPicker';
 import CutomFlatList from '../customs/CutomFlatList';
 import CutomFloatingButton from '../customs/CutomFloatingButton';
 import {employeeCreators, authCreators} from '../models/root-actions';
@@ -11,6 +12,8 @@ const EditEmployees = () => {
   const employeesState = useSelector(state => state.employees);
   const authState = useSelector(state => state.auth);
   const [visivleModal, setVisivleModal] = useState(false);
+  const [visibleOptionsModal, setVisibleOptionsModal] = useState(false);
+  const [optionsData, setOptionsData] = useState([]);
   const [modalData, setModalData] = useState({});
   const [employees, setEmployees] = useState(employeesState.employees);
   const [isAddNewEmployee, setisAddNewEmployee] = useState(false);
@@ -82,6 +85,7 @@ const EditEmployees = () => {
 
   const onCloseModalPressed = () => {
     setVisivleModal(false);
+    setVisibleOptionsModal(false);
   };
 
   const onDoneModalPressed = employee => {
@@ -92,17 +96,31 @@ const EditEmployees = () => {
       onEditEmployee(employee);
     }
   };
+  const handleEditItem = () => {
+    console.log('Clicked');
+    var options = ['Edit', 'Delete'];
+
+    setOptionsData(options);
+    setVisibleOptionsModal(true);
+  };
+
+  const handleOptionPressed = (item, index) => {
+    setVisibleOptionsModal(false);
+    const option = optionsData[index];
+    switch (option) {
+      case 'Edit':
+        handleClickEditEmployee(item);
+        break;
+      case 'Delete':
+        onDeleteEmployee(item);
+        break;
+    }
+  };
 
   const rederItems =
     () =>
     ({item, index}) => {
-      return (
-        <CustomEditItem
-          item={item}
-          onEdit={handleClickEditEmployee}
-          onDelete={onDeleteEmployee}
-        />
-      );
+      return <CustomEditItem item={item} onClickEditItem={handleEditItem} />;
     };
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -111,6 +129,12 @@ const EditEmployees = () => {
         employee={modalData}
         onClosePressed={onCloseModalPressed}
         onDonePressed={onDoneModalPressed}
+      />
+      <CustomModalPicker
+        onClosePressed={onCloseModalPressed}
+        visible={visibleOptionsModal}
+        options={optionsData}
+        onOptionPressed={handleOptionPressed}
       />
 
       {employeesState.employees && (
